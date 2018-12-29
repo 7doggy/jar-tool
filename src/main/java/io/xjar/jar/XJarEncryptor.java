@@ -128,6 +128,11 @@ public class XJarEncryptor extends XEntryEncryptor<JarArchiveEntry> implements X
     }
 
     @Override
+    public void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException {
+
+    }
+
+    @Override
     public boolean filtrate(JarArchiveEntry entry) {
         return super.filtrate(entry) && !entry.getName().equals(META_INF_MANIFEST);
     }

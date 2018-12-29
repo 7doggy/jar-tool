@@ -22,4 +22,6 @@ public interface XConstants {
     int DEFAULT_KEYSIZE = 128;
     int DEFAULT_IVSIZE = 128;
 
+    String ASSIGN_FILE = "ASSIGN.FILE";
+
 }

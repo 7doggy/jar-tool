@@ -72,4 +72,8 @@ public class XZipEncryptor extends XEntryEncryptor<ZipArchiveEntry> implements X
             XKit.close(zos);
         }
     }
+    @Override
+    public void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException {
+
+    }
 }

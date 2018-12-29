@@ -36,6 +36,17 @@ public interface XEncryptor {
     void encrypt(XKey key, InputStream in, OutputStream out) throws IOException;
 
     /**
+     * 加密，将输入流加密输出至输出流，并保留密码
+     *
+     * @param key 密钥
+     * @param in  输入流
+     * @param out 输出流
+     * @param password 密码
+     * @throws IOException I/O 异常
+     */
+    void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException;
+
+    /**
      * 加密，将输入流包装成加密的输入流
      *
      * @param key 密钥

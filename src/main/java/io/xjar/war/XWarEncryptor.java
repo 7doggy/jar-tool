@@ -122,6 +122,11 @@ public class XWarEncryptor extends XEntryEncryptor<JarArchiveEntry> implements X
     }
 
     @Override
+    public void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException {
+
+    }
+
+    @Override
     public boolean filtrate(JarArchiveEntry entry) {
         return super.filtrate(entry) && safeFilter.filtrate(entry);
     }

@@ -530,7 +530,7 @@ public class XBoot implements XConstants {
     public static void encrypt(InputStream in, OutputStream out, String password, String algorithm, int keysize, int ivsize, XEntryFilter<JarArchiveEntry> filter) throws Exception {
         XBootEncryptor xBootEncryptor = new XBootEncryptor(new XJdkEncryptor(algorithm), filter);
         XKey xKey = XKit.key(algorithm, keysize, ivsize, password);
-        xBootEncryptor.encrypt(xKey, in, out);
+        xBootEncryptor.encrypt(xKey, in, out, password);
     }
 
     /**

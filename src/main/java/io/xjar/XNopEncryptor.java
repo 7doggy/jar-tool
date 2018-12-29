@@ -36,4 +36,8 @@ public class XNopEncryptor implements XEncryptor {
     public OutputStream encrypt(XKey key, OutputStream out) throws IOException {
         return out;
     }
+    @Override
+    public void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException {
+
+    }
 }

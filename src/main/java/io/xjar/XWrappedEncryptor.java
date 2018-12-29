@@ -31,6 +31,11 @@ public abstract class XWrappedEncryptor implements XEncryptor {
     }
 
     @Override
+    public void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException {
+        xEncryptor.encrypt(key, in, out, password);
+    }
+
+    @Override
     public InputStream encrypt(XKey key, InputStream in) throws IOException {
         return xEncryptor.encrypt(key, in);
     }

@@ -7,6 +7,8 @@ import io.xjar.key.XKey;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * 文件夹加密器
@@ -35,6 +37,10 @@ public class XDirEncryptor extends XEntryEncryptor<File> implements XEncryptor {
                 encrypt(key, files[i], new File(dest, files[i].getName()));
             }
         }
+    }
+    @Override
+    public void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException {
+
     }
 
 }

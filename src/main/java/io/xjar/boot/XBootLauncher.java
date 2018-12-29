@@ -2,10 +2,16 @@ package io.xjar.boot;
 
 import io.xjar.*;
 import io.xjar.key.XKey;
+import org.apache.commons.compress.archivers.jar.JarArchiveEntry;
 import org.springframework.boot.loader.JarLauncher;
+import tool.Main;
 
-import java.io.Console;
+import java.io.*;
+import java.net.JarURLConnection;
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Spring-Boot启动器
@@ -25,6 +31,21 @@ public class XBootLauncher extends JarLauncher implements XConstants {
         int keysize = DEFAULT_KEYSIZE;
         int ivsize = DEFAULT_IVSIZE;
         String password = null;
+
+        String jarPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        //System.out.println(jarPath);
+        JarFile jarFile = new JarFile(jarPath);
+        //System.out.println(jarFile);
+
+        String classpath = "BOOT-INF/classes/";
+        JarEntry ASSIGN_FILE = jarFile.getJarEntry(classpath + XJAR_INF_DIR + XConstants.ASSIGN_FILE);
+        //System.out.println(ASSIGN_FILE);
+
+        InputStream input = jarFile.getInputStream(ASSIGN_FILE);
+        password = process(input);
+       // System.out.println(password);
+        jarFile.close();
+
         for (String arg : args) {
             if (arg.toLowerCase().startsWith(XJAR_ALGORITHM)) {
                 algorithm = arg.substring(XJAR_ALGORITHM.length());
@@ -60,6 +81,14 @@ public class XBootLauncher extends JarLauncher implements XConstants {
     @Override
     protected ClassLoader createClassLoader(URL[] urls) throws Exception {
         return new XBootClassLoader(urls, this.getClass().getClassLoader(), xDecryptor, xEncryptor, xKey);
+    }
+
+    private static String process(InputStream input) throws IOException  {
+        InputStreamReader isr = new InputStreamReader(input);
+        BufferedReader reader = new BufferedReader(isr);
+        String line = reader.readLine();
+        reader.close();
+        return line;
     }
 
 }

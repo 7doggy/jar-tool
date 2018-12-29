@@ -70,4 +70,9 @@ public class XJdkEncryptor implements XEncryptor {
             throw new IOException(e);
         }
     }
+
+    @Override
+    public void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException {
+
+    }
 }

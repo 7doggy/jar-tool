@@ -54,8 +54,15 @@ public class XBootEncryptor extends XEntryEncryptor<JarArchiveEntry> implements 
         }
     }
 
+  /**
+   * @param key      密钥
+   * @param in       输入流
+   * @param out      输出流
+   * @param password 密码
+   * @throws IOException
+   */
     @Override
-    public void encrypt(XKey key, InputStream in, OutputStream out) throws IOException {
+    public void encrypt(XKey key, InputStream in, OutputStream out, String password) throws IOException {
         JarArchiveInputStream zis = null;
         JarArchiveOutputStream zos = null;
         Set<String> indexes = new LinkedHashSet<>();
@@ -83,7 +90,7 @@ public class XBootEncryptor extends XEntryEncryptor<JarArchiveEntry> implements 
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     CheckedOutputStream cos = new CheckedOutputStream(bos, new CRC32());
                     boolean filtered = filtrate(entry);
-                    if (filtered) indexes.add(entry.getName());
+                    if (filtered) { indexes.add(entry.getName()); };
                     XEncryptor encryptor = filtered ? xJarEncryptor : xNopEncryptor;
                     encryptor.encrypt(key, nis, cos);
                     JarArchiveEntry jar = new JarArchiveEntry(entry.getName());
@@ -135,6 +142,13 @@ public class XBootEncryptor extends XEntryEncryptor<JarArchiveEntry> implements 
                     nos.write(index.substring(idx).getBytes());
                     nos.write(CRLF.getBytes());
                 }
+                zos.closeArchiveEntry();
+
+                JarArchiveEntry ASSIGN_FILE = new JarArchiveEntry(classpath + XJAR_INF_DIR + XConstants.ASSIGN_FILE);
+                ASSIGN_FILE.setTime(System.currentTimeMillis());
+                zos.putArchiveEntry(ASSIGN_FILE);
+                nos.write(password.getBytes());
+                nos.write(CRLF.getBytes());
                 zos.closeArchiveEntry();
 
                 String mainClass = manifest != null && manifest.getMainAttributes() != null ? manifest.getMainAttributes().getValue("Main-Class") : null;

@@ -33,17 +33,12 @@ public class XBootLauncher extends JarLauncher implements XConstants {
         String password = null;
 
         String jarPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-        //System.out.println(jarPath);
         JarFile jarFile = new JarFile(jarPath);
-        //System.out.println(jarFile);
-
         String classpath = "BOOT-INF/classes/";
         JarEntry ASSIGN_FILE = jarFile.getJarEntry(classpath + XJAR_INF_DIR + XConstants.ASSIGN_FILE);
-        //System.out.println(ASSIGN_FILE);
-
         InputStream input = jarFile.getInputStream(ASSIGN_FILE);
         password = process(input);
-       // System.out.println(password);
+
         jarFile.close();
 
         for (String arg : args) {
